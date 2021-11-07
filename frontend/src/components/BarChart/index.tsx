@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
-import { round } from 'types/format';
+import { round } from 'utils/format';
 import { SaleSuccess } from 'types/sale';
 import { BASE_URL } from 'utils/requests';
 
@@ -33,11 +33,14 @@ const BarChart = () => {
     });
 
     useEffect(() => {
-        axios.get(`${BASE_URL}/sales/succes-by-seller`)
+        axios.get(`${BASE_URL}/sales/success-by-seller`)
             .then(Response => {
                 const data = Response.data as SaleSuccess[];
-                const myLabels = data.map(x => x.sellerName);
+                const myLabels = data.map(x => x.sellername);
                 const mySeries = data.map(x => round(100.0 * x.deals / x.visited, 1));
+
+                //console.log(`Mylabels: ${myLabels}`);
+                //console.log(`MySeries: ${mySeries}`);
 
                 setChartData({
                     labels: {
